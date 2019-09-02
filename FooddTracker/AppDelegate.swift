@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  FooddTracker
+//  FoodTracker
 //
 //  Created by Whitney Nelson on 8/31/19.
 //  Copyright © 2019 Whitney Nelson. All rights reserved.
