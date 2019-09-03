@@ -147,6 +147,9 @@ class MealTableViewController: UITableViewController {
         cell.photoImageView.image = meal.photo
         cell.ratingControl.rating = meal.rating
         
+        cell.nameLabel.textColor = UIColor(red: 0.0, green: 0.450, blue: 0.5882, alpha: 1.0)
+        cell.nameLabel.font = UIFont(name: "Georgia", size: CGFloat(22))
+        
         return cell
     }
     
