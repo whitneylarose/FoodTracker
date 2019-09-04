@@ -8,6 +8,7 @@
 
 import UIKit
 import os.log
+import FirebaseUI
 
 
 class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
@@ -27,10 +28,10 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Handle the text field’s user input through delegate callbacks.
+        /* Handle the text field’s user input through delegate callbacks.
         nameTextField.delegate = self
         
-        // Set up views if editing an existing Meal.
+        Set up views if editing an existing Meal.
         if let meal = meal {
             navigationItem.title = meal.name
             nameTextField.text   = meal.name
@@ -39,15 +40,25 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         }
         
         // Enable the Save button only if the text field has a valid Meal name.
-        updateSaveButtonState()
+        updateSaveButtonState()*/
     }
     
-    //MARK: UITextFieldDelegate
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Hide the keyboard.
-        textField.resignFirstResponder()
-        return true
+    @IBAction func loginTapped(_ sender: UIButton) {
+        
+        let authUI = FUIAuth.defaultAuthUI()
+        
+        guard authUI != nil else {
+            //log error
+            return
+        }
+        
+        authUI?.delegate = self
+        authUI?.providers = [FUIEmailAuth()]
+        
+        let authViewController = authUI!.authViewController()
+        present(authViewController, animated: true, completion: nil)
     }
+    
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
@@ -148,3 +159,16 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
 
 }
 
+
+extension MealViewController: FUIAuthDelegate{
+    
+    func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
+        
+        if error != nil {
+            //log error
+            return
+        }
+        
+        performSegue(withIdentifier: "goHome", sender: self)
+    }
+}
